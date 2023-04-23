@@ -1,4 +1,4 @@
-//Dependencies
+
 import express from 'express';
 
 import { initializeApp } from "firebase/app";
@@ -10,48 +10,45 @@ import { getFirestore, collection } from
 import { doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDNtLCZaRXDTevzDXM_lqZWvTIPTkwsj-0",
-    authDomain: "nibmnewproject3.firebaseapp.com",
-    databaseURL: "https://nibmnewproject3-default-rtdb.firebaseio.com",
-    projectId: "nibmnewproject3",
-    storageBucket: "nibmnewproject3.appspot.com",
-    messagingSenderId: "521568215425",
-    appId: "1:521568215425:web:2ca89ca9f13ed56115c880",
-    measurementId: "G-XZM2D7ELVL"
+    apiKey: "AIzaSyCJ3D7snUEgOpAwmMae3cpMM5xIy68qqYQ",
+    authDomain: "ipccw2-5409e.firebaseapp.com",
+    databaseURL: "https://ipccw2-5409e-default-rtdb.firebaseio.com",
+    projectId: "ipccw2-5409e",
+    storageBucket: "ipccw2-5409e.appspot.com",
+    messagingSenderId: "221848359057",
+    appId: "1:221848359057:web:ce60ff87f410050c816f30",
+    measurementId: "G-P9N9XJLZV5"
   };
 
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
-//Function to read DB
+
 async function getCollection(db, colName) {
-const dataCol = collection(db, colName);
-const dataSnapshot = await getDocs(dataCol);
-const DataList = dataSnapshot.docs.map(doc => doc.data());
-return DataList;
+    const dataCol = collection(db, colName);
+    const dataSnapshot = await getDocs(dataCol);
+    const DataList = dataSnapshot.docs.map(doc => doc.data());
+    return DataList;
 }
 
-//Function to write to DB
 async function addToCollection(db, colName) {
 
     const data = {
-        stringExample: 'Hello, World!',
-        booleanExample: true,
-        numberExample: 3.14159265,
-        dateExample: new Date('December 10, 1815'),
-        arrayExample: [5, true, 'hello'],
-        nullExample: null,
-        objectExample: {
-          a: 5,
-          b: true
-        }
+        ax : ax,
+        ay : null,
+        az : null,
+        Speed : null,
+        gx : null,
+        gy : null,
+        gz : null,
+        DeviceID : id,
+        Direction : null,
     };
 
     const UUID = (new Date()).getTime();
     await setDoc(doc(db, colName, UUID.toString()), data);
 }
 
-//Function to write an object to DB
 async function addDataToCollection(db, colName, data) {
     const UUID = (new Date()).getTime();
     await setDoc(doc(db, colName, UUID.toString()), data);
@@ -59,25 +56,30 @@ async function addDataToCollection(db, colName, data) {
 
 const api = express();
 api.use(express.json());
-//Handling Get request for / URI
 api.get('/', (req, res) => {
     res.send('Express App Running');
 });
 
-//Handling record temp
-api.post('/recordTemp', (req, res) => {
+
+api.post('/recordsound', (req, res) => {
     const sensorReading = req.query.temp || 0;
     const id = req.query.ID
     const data = {
-        Reading : sensorReading,
-        SensorID : id,
-        createdAt : new Date()
+        ax : ax,
+        ay : ay,
+        az : az,
+        Speed : speed,
+        gx : gx,
+        gy : gy,
+        gz : gz,
+        DeviceID : deviceId,
+        Direction : derection,
     }
-    addDataToCollection(database, "TempData", data).then(
+    addDataToCollection(database, "nibm_IPCCw2", data).then(
         value => {res.send("Done");}
     ).catch(
         err => {
-            res.send("Error writing to DB, Please check the API log for more details");
+            res.send("Error writing to DB, Please check the API");
             console.log(err);
         }
     )
